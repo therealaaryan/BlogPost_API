@@ -11,7 +11,7 @@ const register = async (req, res) => {
 
         res.json({ message: 'Registered Successfully' });
     } catch (error) {
-        console.error('Error in register function:', error); // Log any errors
+        console.error('Error in register function:', error);
         res.status(500).json({error: 'Server Error'});
     }
 };
