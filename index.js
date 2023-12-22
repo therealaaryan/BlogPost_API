@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
+const authMiddleware = require('./middleware/authMiddleware')
 
 require('dotenv').config();
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 3000
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
+app.use(authMiddleware);
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
