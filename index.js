@@ -25,7 +25,7 @@ db.once('open', () => {
 
 app.use('/auth', require('./routes/authRoutes'))
 
-// Apply authMiddleware only to routes that require authentication
+
 const authMiddleware = require('./middleware/authMiddleware')
 app.use('/posts', authMiddleware, require('./routes/postRoutes'))
 

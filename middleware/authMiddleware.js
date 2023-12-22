@@ -1,12 +1,15 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-    const token = req.headers.authorization;
-    console.log('Token received:', token);
+    const header = req.headers.authorization;
+    console.log('Header received:', header);
 
-    if(!token){
+    if(!header){
         return res.status(401).json({error: 'Unauthorized'});
     }
+
+    const token = header.split(' ')[1];
+    console.log('Token received:', token);
 
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
