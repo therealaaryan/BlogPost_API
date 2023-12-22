@@ -13,10 +13,16 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
-mongoose.connect()
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use('/auth', require())
-app.use('/posts', require())
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
+app.use('/auth', require('./routes/authRoutes'))
+app.use('/posts', require('./routes/postRoutes'))
 
 app.get('/', (req, res) => {
     res.send('API is running!');
