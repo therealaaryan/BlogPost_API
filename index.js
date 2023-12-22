@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
-const authMiddleware = require('./middleware/authMiddleware')
 const securityMiddleware = require('./middleware/securityMiddleware')
 
 require('dotenv').config();
@@ -15,7 +14,6 @@ app.use(securityMiddleware);
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
-app.use(authMiddleware);
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -26,7 +24,10 @@ db.once('open', () => {
 });
 
 app.use('/auth', require('./routes/authRoutes'))
-app.use('/posts', require('./routes/postRoutes'))
+
+// Apply authMiddleware only to routes that require authentication
+const authMiddleware = require('./middleware/authMiddleware')
+app.use('/posts', authMiddleware, require('./routes/postRoutes'))
 
 app.get('/', (req, res) => {
     res.send('API is running!');
