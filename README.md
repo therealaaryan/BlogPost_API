@@ -1,7 +1,5 @@
 # BlogPost_API
 
-This repository contains a CRUD (Create, Read, Update, Delete) API built using Node.js, Express.js, and MongoDB (using Mongoose). This API allows you to perform basic CRUD operations on a collection of data, providing endpoints for creating, reading, updating, and deleting records.
-
 The API is hosted using Render at the following link: https://blogpost-api-v0ze.onrender.com/
 
 This repository contains a BlogPost API built using Node.js, Express.js, and MongoDB (using Mongoose). This API allows user authentication using jwt and upon which, allows you to perform basic CRUD operations on a collection of data, providing endpoints for creating, reading, updating, and deleting the blog posts.
