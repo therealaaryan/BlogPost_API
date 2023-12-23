@@ -51,19 +51,20 @@ const deletePost = async (req, res) => {
         const postId = req.params.id;
         const post = await Post.findById(postId);
 
-        if(!post){
-            return res.status(404).json({error: 'Post not found'});
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
         }
 
         if (post.author.toString() !== req.userId) {
             return res.status(403).json({ error: 'Permission denied' });
         }
 
-        await post.remove();
+        await Post.deleteOne({ _id: postId });
 
-        res.json({message: 'Post deleted successfully'})
+        res.json({ message: 'Post deleted successfully' });
     } catch (error) {
-        res.status(500).json({error: 'Server Error'})
+        console.error('Error in deletePost:', error); // Log the detailed error
+        res.status(500).json({ error: 'Server Error' });
     }
 };
 
